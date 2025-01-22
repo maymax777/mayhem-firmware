@@ -20,11 +20,12 @@ ENV LC_ALL C.UTF-8
 
 # Grab the GNU ARM toolchain from arm.com
 # Then extract contents to /opt/build/armbin/
-RUN mkdir /opt/build \
+RUN mkdir /opt/build
+COPY gcc-arm-none-eabi.tar.bz2 /opt/build/
+
+RUN mkdir /opt/build/armbin \
  && cd /opt/build \
- && wget -O gcc-arm-none-eabi $ARMBINURL \
- && mkdir armbin \
- && tar --strip=1 -xjvf gcc-arm-none-eabi -C armbin
+ && tar --strip=1 -xjvf gcc-arm-none-eabi.tar.bz2 -C armbin
 
 ADD firmware/tools/docker-entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

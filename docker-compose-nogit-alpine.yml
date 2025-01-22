@@ -4,6 +4,6 @@ services:
   portapack-mayhem-dev:
     build:
       context: .
-      dockerfile: dockerfile-nogit
+      dockerfile: dockerfile-nogit-alpine
     volumes:
       - ".:/havoc"

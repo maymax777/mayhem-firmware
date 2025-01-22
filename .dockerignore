@@ -1,2 +1,3 @@
 *
+!gcc-arm-none-eabi.tar.bz2
 !firmware/tools/docker-entrypoint.sh
