@@ -48,6 +48,10 @@ set(EXTCPPSRC
 	external/gpssim/main.cpp
 	external/gpssim/gps_sim_app.cpp
 
+	#spoofer
+	external/spoofer/main.cpp
+	external/spoofer/spoofer_app.cpp
+
 	#spainter
 	external/spainter/main.cpp
 	external/spainter/ui_spectrum_painter.cpp

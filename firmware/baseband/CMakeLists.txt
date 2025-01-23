@@ -607,6 +607,13 @@ set(MODE_CPPSRC
 )
 DeclareTargets(PGPS gps_sim)
 
+### GPS Spoofer
+
+set(MODE_CPPSRC
+	proc_spoofer.cpp
+)
+DeclareTargets(PSPF spoofer)
+
 ### Spectrum painter
 
 set(MODE_CPPSRC

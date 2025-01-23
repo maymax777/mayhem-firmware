@@ -59,6 +59,7 @@ MEMORY
     ram_external_app_tuner(rwx) : org = 0xADD20000, len = 32k
     ram_external_app_metronome(rwx) : org = 0xADD30000, len = 32k 
     ram_external_app_app_manager(rwx) : org = 0xADD40000, len = 32k 
+    ram_external_app_spoofer(rwx) : org = 0xADD50000, len = 32k
 }
 
 SECTIONS
@@ -128,6 +129,12 @@ SECTIONS
         KEEP(*(.external_app.app_gpssim.application_information));
         *(*ui*external_app*gpssim*);
     } > ram_external_app_gpssim
+
+    .external_app_spoofer : ALIGN(4) SUBALIGN(4)
+    {
+        KEEP(*(.external_app.app_spoofer.application_information));
+        *(*ui*external_app*spoofer*);
+    } > ram_external_app_spoofer
 
     .external_app_spainter : ALIGN(4) SUBALIGN(4)
     {
