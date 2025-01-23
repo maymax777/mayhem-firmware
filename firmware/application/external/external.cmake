@@ -168,6 +168,7 @@ set(EXTAPPLIST
 	lcr
 	jammer
 	gpssim
+	spoofer
 	spainter
 	keyfob
 	tetris
