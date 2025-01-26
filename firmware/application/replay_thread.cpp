@@ -125,3 +125,30 @@ uint32_t ReplayThread::run() {
 
     return TERMINATED;
 }
+
+
+// uint32_t ReplayThread::run() {
+//     constexpr size_t block_size = 512;
+//     size_t blocks = config.read_size / block_size;
+
+//     while (!(*ready_sig)) {
+//         chThdSleep(100);
+//     };
+
+//     while (!chThdShouldTerminate()) {
+//         for (size_t c = 0; c < blocks; c++) {
+//             auto read_result = reader->read(&((uint8_t*)iq_buff)[c * block_size], block_size);
+//             if (read_result.is_error()) {
+//                 return READ_ERROR;
+//             }
+//             if (read_result.value() == 0) {
+//                 return END_OF_FILE;
+//             }
+//         }
+
+//         // Call function to pass iq_buff to the baseband system
+//         baseband::set_fifo_data(iq_buff);
+//     }
+
+//     return TERMINATED;
+// }

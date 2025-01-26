@@ -49,7 +49,7 @@ class SpooferAppView : public View {
     void set_parent_rect(const Rect new_parent_rect) override;
     void focus() override;
 
-    std::string title() const override { return "GPS Sim TX"; };
+    std::string title() const override { return "Spoofer TX"; };
 
    private:
     NavigationView& nav_;
@@ -76,14 +76,17 @@ class SpooferAppView : public View {
     void set_ready();
     void handle_replay_thread_done(const uint32_t return_code);
     void file_error();
+    void changeLocation(int);
 
     std::filesystem::path file_path{};
     std::unique_ptr<ReplayThread> replay_thread{};
     bool ready_signal{false};
+    int location_id = 0;
+    int location_count = 5;
 
     Button button_open{
         {0 * 8, 0 * 16, 10 * 8, 2 * 16},
-        "Open file"};
+        "Open brdc"};
 
     Text text_filename{
         {11 * 8, 0 * 16, 12 * 8, 16},
@@ -116,6 +119,20 @@ class SpooferAppView : public View {
         &bitmap_play,
         Theme::getInstance()->fg_green->foreground,
         Theme::getInstance()->fg_green->background};
+
+    ImageButton button_prev{
+        {2 * 8, 4 * 16, 4 * 8, 2 * 16},
+        &bitmap_arrow_left,
+        Theme::getInstance()->fg_cyan->foreground,
+        Theme::getInstance()->fg_cyan->background};
+    Text text_location{
+        {6 * 8, 4 * 16, 18 * 8, 2 * 16},
+        "Location"};
+    ImageButton button_next{
+        {26 * 8, 4 * 16, 4 * 8, 2 * 16},
+        &bitmap_arrow_right,
+        Theme::getInstance()->fg_cyan->foreground,
+        Theme::getInstance()->fg_cyan->background};
 
     spectrum::WaterfallView waterfall{};
 

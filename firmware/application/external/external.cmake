@@ -51,6 +51,7 @@ set(EXTCPPSRC
 	#spoofer
 	external/spoofer/main.cpp
 	external/spoofer/spoofer_app.cpp
+	gpssim.c
 
 	#spainter
 	external/spainter/main.cpp

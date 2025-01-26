@@ -73,8 +73,8 @@ __attribute__((section(".external_app.app_spoofer.application_information"), use
         0x50,
         0x14,
     },
-    /*.icon_color = */ ui::Color::blue().v,
-    /*.menu_location = */ app_location_t::TX,
+    /*.icon_color = */ ui::Color::yellow().v,
+    /*.menu_location = */ app_location_t::HOME,
     /*.desired_menu_position = */ -1,
 
     /*.m4_app_tag = portapack::spi_flash::image_tag_spoofer */ {'P', 'S', 'P', 'F'},

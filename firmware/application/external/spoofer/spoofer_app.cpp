@@ -34,10 +34,20 @@
 #include "portapack.hpp"
 #include "portapack_persistent_memory.hpp"
 
+#include "gpssim.h"
+
 using namespace portapack;
 namespace fs = std::filesystem;
 
 namespace ui::external_app::spoofer {
+
+constexpr std::string_view location_list[] = {
+    "Tokyo",
+    "Nagoya",
+    "Osaka",
+    "Fukuoka",
+    "Hiroshima",
+};
 
 void SpooferAppView::set_ready() {
     ready_signal = true;
@@ -72,8 +82,8 @@ void SpooferAppView::on_file_changed(const fs::path& new_file_path) {
     progressbar.set_max(file_size);
     text_filename.set(truncate(file_path.filename().string(), 12));
 
-    auto duration = ms_duration(file_size, transmitter_model.sampling_rate(), 2);
-    text_duration.set(to_string_time_ms(duration));
+    // auto duration = ms_duration(file_size, transmitter_model.sampling_rate(), 2);
+    // text_duration.set(to_string_time_ms(duration));
 
     // TODO: fix in UI framework with 'try_focus()'?
     // Hack around focus getting called by ctor before parent is set.
@@ -105,7 +115,24 @@ void SpooferAppView::toggle() {
     }
 }
 
+void SpooferAppView::changeLocation(int delta) {
+    location_id = (location_count + location_id + delta) % location_count;
+    text_location.set(location_list[location_id]);
+}
+
 void SpooferAppView::start() {
+    // Convert to std::string
+    std::string file_path_str = file_path.string();
+
+    // Convert to char* (allocate memory dynamically)
+    char* file_path_cstr = new char[file_path_str.length() + 1];
+    std::strcpy(file_path_cstr, file_path_str.c_str());
+
+    int neph = generate(file_path_cstr);
+    text_location.set(std::to_string(neph));
+
+    return;
+
     stop(false);
 
     std::unique_ptr<stream::Reader> reader;
@@ -176,6 +203,9 @@ SpooferAppView::SpooferAppView(
         &check_loop,
         &button_play,
         &waterfall,
+        &button_prev,
+        &text_location,
+        &button_next,
     });
 
     field_frequency.set_step(5000);
@@ -185,12 +215,22 @@ SpooferAppView::SpooferAppView(
     };
 
     button_open.on_select = [this, &nav](Button&) {
-        auto open_view = nav.push<FileLoadView>(".C8");
+        auto open_view = nav.push<FileLoadView>(".txt");    // select brdc file, so ext should be txt
         ensure_directory(gps_dir);
         open_view->push_dir(gps_dir);
         open_view->on_changed = [this](std::filesystem::path new_file_path) {
             on_file_changed(new_file_path);
         };
+    };
+
+    text_location.set(location_list[location_id]);
+
+    button_next.on_select = [this](ImageButton&) {
+        this->changeLocation(+1);
+    };
+
+    button_prev.on_select = [this](ImageButton&) {
+        this->changeLocation(-1);
     };
 }
 
